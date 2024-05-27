@@ -38,3 +38,4 @@ coverage/
 
 # Ignore function.zip file in backend
 backend/config/function.zip
+backend/function.zip
