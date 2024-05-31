@@ -7,12 +7,12 @@ const router = express.Router();
 // Create a contact
 router.post('/', verifyToken, async (req, res) => {
     try {
-        const { name, phone, email, address, notes, birthday } = req.body;
-        const newContact = await Contact.create({ name, phone, email, address, notes, birthday });
+        const { first_name, last_name, phone, email, address, notes, birthday } = req.body;
+        const newContact = await Contact.create({ first_name, last_name, phone, email, address, notes, birthday });
         res.json(newContact);
     } catch (err) {
         console.error('Error creating contact:', err.message);
-        res.status(500).json({ msg: 'Server error', error: err.message, request_body: req.body });
+        res.status(500).json({ msg: 'Server error', error: err.message });
     }
 });
 
@@ -48,8 +48,8 @@ router.put('/:id', verifyToken, async (req, res) => {
         if (!contact) {
             return res.status(404).json({ msg: 'Contact not found' });
         }
-        const { name, phone, email, address, notes, birthday } = req.body;
-        await contact.update({ name, phone, email, address, notes, birthday });
+        const { first_name, last_name, phone, email, address, notes, birthday } = req.body;
+        await contact.update({ first_name, last_name, phone, email, address, notes, birthday });
         res.json(contact);
     } catch (err) {
         console.error('Error updating contact:', err.message);

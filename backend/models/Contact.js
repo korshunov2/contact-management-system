@@ -7,7 +7,11 @@ const Contact = sequelize.define('Contact', {
         autoIncrement: true,
         primaryKey: true,
     },
-    name: {
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    last_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -20,7 +24,7 @@ const Contact = sequelize.define('Contact', {
         allowNull: false,
     },
     address: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: true,
     },
     notes: {
