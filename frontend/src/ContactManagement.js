@@ -91,18 +91,18 @@ const ContactManagement = ({ token }) => {
     return (
         <div>
             <h2>Contacts</h2>
-            <input
+            <input class="form-control"
                 type="text"
                 placeholder="Search contacts..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
-            <table>
+            <table class="table table-striped table-hover">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Actions</th>
+                    <tr class="table-primary">
+                        <th scope="col">Name</th>
+                        <th scope="col"> Email</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -111,8 +111,8 @@ const ContactManagement = ({ token }) => {
                             <td>{contact.name}</td>
                             <td>{contact.email}</td>
                             <td>
-                                <button onClick={() => setSelectedContact(contact)}>Edit</button>
-                                <button onClick={() => handleDelete(contact.id)}>Delete</button>
+                                <button class="btn btn-outline-secondary mr-3" type="button" onClick={() => setSelectedContact(contact)}>Edit</button>
+                                <button class="btn btn-outline-secondary" type="button" onClick={() => handleDelete(contact.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
