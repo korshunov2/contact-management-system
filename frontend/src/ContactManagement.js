@@ -7,7 +7,8 @@ const ContactManagement = ({ token }) => {
     const [filteredContacts, setFilteredContacts] = useState([]);
     const [selectedContact, setSelectedContact] = useState(null);
     const [newContact, setNewContact] = useState({
-        name: '',
+        first_name: '',
+        last_name: '',
         phone: '',
         email: '',
         address: '',
@@ -33,7 +34,7 @@ const ContactManagement = ({ token }) => {
     useEffect(() => {
         setFilteredContacts(
             contacts.filter(contact => 
-                contact.name.toLowerCase().includes(search.toLowerCase()) ||
+                `${contact.first_name} ${contact.last_name}`.toLowerCase().includes(search.toLowerCase()) ||
                 contact.email.toLowerCase().includes(search.toLowerCase())
             )
         );
@@ -66,7 +67,7 @@ const ContactManagement = ({ token }) => {
                     headers: { 'x-auth-token': token }
                 });
                 setContacts([...contacts, response.data]);
-                setNewContact({ name: '', phone: '', email: '', address: '', notes: '', birthday: '' });
+                setNewContact({ first_name: '', last_name: '', phone: '', email: '', address: '', notes: '', birthday: '' });
             } catch (error) {
                 console.error('Error creating contact:', error);
             }
@@ -99,16 +100,18 @@ const ContactManagement = ({ token }) => {
             />
             <table class="table table-striped table-hover">
                 <thead>
-                    <tr class="table-primary">
-                        <th scope="col">Name</th>
-                        <th scope="col"> Email</th>
-                        <th scope="col">Actions</th>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredContacts.map(contact => (
                         <tr key={contact.id}>
-                            <td>{contact.name}</td>
+                            <td>{contact.first_name}</td>
+                            <td>{contact.last_name}</td>
                             <td>{contact.email}</td>
                             <td>
                                 <button class="btn btn-outline-secondary mr-3" type="button" onClick={() => setSelectedContact(contact)}>Edit</button>
@@ -121,7 +124,8 @@ const ContactManagement = ({ token }) => {
             {selectedContact ? (
                 <form onSubmit={handleSubmit}>
                     <h2>Edit Contact</h2>
-                    <input type="text" name="name" placeholder="Name" value={selectedContact.name} onChange={handleChange} />
+                    <input type="text" name="first_name" placeholder="First Name" value={selectedContact.first_name} onChange={handleChange} />
+                    <input type="text" name="last_name" placeholder="Last Name" value={selectedContact.last_name} onChange={handleChange} />
                     <input type="text" name="phone" placeholder="Phone" value={selectedContact.phone} onChange={handleChange} />
                     <input type="email" name="email" placeholder="Email" value={selectedContact.email} onChange={handleChange} />
                     <input type="text" name="address" placeholder="Address" value={selectedContact.address} onChange={handleChange} />
@@ -133,7 +137,8 @@ const ContactManagement = ({ token }) => {
             ) : (
                 <form onSubmit={handleSubmit}>
                     <h2>Add New Contact</h2>
-                    <input type="text" name="name" placeholder="Name" value={newContact.name} onChange={handleChange} />
+                    <input type="text" name="first_name" placeholder="First Name" value={newContact.first_name} onChange={handleChange} />
+                    <input type="text" name="last_name" placeholder="Last Name" value={newContact.last_name} onChange={handleChange} />
                     <input type="text" name="phone" placeholder="Phone" value={newContact.phone} onChange={handleChange} />
                     <input type="email" name="email" placeholder="Email" value={newContact.email} onChange={handleChange} />
                     <input type="text" name="address" placeholder="Address" value={newContact.address} onChange={handleChange} />
