@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Form, FormGroup, Col, Row, Button } from 'reactstrap';
 
 const Login = ({ setToken }) => {
     const [username, setUsername] = useState('');
@@ -17,25 +18,26 @@ const Login = ({ setToken }) => {
     };
 
     return (
-        <div class="container">
-        <form  onSubmit={handleSubmit}>
-            <div class="row">
+     <div>
+        <Form  onSubmit={handleSubmit}>
+            <Row>
                 <h2>Login</h2>
-            </div>
-            <div class="row">
-                <div class="col">   
-                    <input  class="form-control" type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div class="col">
-                    <input class="form-control" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <div class="col">
-                    <button class="btn btn-primary" type="submit">Login</button>
-                </div>
-           
-            </div>
-        </form>
-        </div>
+            </Row>
+            <Row className="row-cols-lg-auto g-3">
+            <FormGroup>
+                <Col md={6}>   
+                    <input   type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    {' '}
+                    <input  type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+
+                </Col>           
+            </FormGroup>
+
+            </Row>
+            <Button color="primary" outline  type="submit">Login</Button>
+
+        </Form>
+       </div> 
     );
 };
 
