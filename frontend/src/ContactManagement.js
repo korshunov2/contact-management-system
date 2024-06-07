@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { Form, FormGroup, Col, Row, Button, Container } from 'reactstrap';
 
 const ContactManagement = ({ token }) => {
@@ -8,6 +9,8 @@ const ContactManagement = ({ token }) => {
     const [filteredContacts, setFilteredContacts] = useState([]);
     const [selectedContact, setSelectedContact] = useState(null);
     const [newContact, setNewContact] = useState(null);
+    const [aiQuery, setAiQuery] = useState('');
+    const [aiResponse, setAiResponse] = useState('');
 
     const fetchContacts = async () => {
         try {
@@ -107,6 +110,27 @@ const ContactManagement = ({ token }) => {
         });
     };
 
+    const handleAiQueryChange = (e) => {
+        setAiQuery(e.target.value);
+    };
+
+    const handleAiQuerySubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('https://p3s3b72sx9.execute-api.us-east-2.amazonaws.com/ai/query', 
+            { 
+                query: aiQuery, 
+                contacts: contacts 
+            }, 
+            {
+                headers: { 'x-auth-token': token }
+            });
+            setAiResponse(response.data.choices[0].message.content.trim());
+        } catch (error) {
+            console.error('Error making AI query:', error);
+        }
+    };
+
     return (
         <div>
             <Container>
@@ -122,6 +146,17 @@ const ContactManagement = ({ token }) => {
            </Col>
            <Col>
             <Button color="primary" outline onClick={handleAddNewContact}>Add New Contact</Button>
+            <form onSubmit={handleAiQuerySubmit} style={{ marginTop: '20px' }}>
+                <input
+                    type="text"
+                    placeholder="Ask AI about contacts..."
+                    value={aiQuery}
+                    onChange={handleAiQueryChange}
+                    style={{ width: '60%' }}
+                />
+                <button type="submit">Ask AI</button>
+            </form>
+            {aiResponse && <div style={{ marginTop: '20px' }}><strong>AI Response:</strong> {aiResponse}</div>}
             </Col>
             </Row>
             <Row className="row-cols-lg-auto g-3 mt-3">
@@ -170,6 +205,10 @@ const ContactManagement = ({ token }) => {
             </Container>
         </div>
     );
+};
+
+ContactManagement.propTypes = {
+    token: PropTypes.string.isRequired
 };
 
 export default ContactManagement;
