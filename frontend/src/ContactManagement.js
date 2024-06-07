@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const ContactManagement = ({ token }) => {
     const [contacts, setContacts] = useState([]);
@@ -7,6 +8,8 @@ const ContactManagement = ({ token }) => {
     const [filteredContacts, setFilteredContacts] = useState([]);
     const [selectedContact, setSelectedContact] = useState(null);
     const [newContact, setNewContact] = useState(null);
+    const [aiQuery, setAiQuery] = useState('');
+    const [aiResponse, setAiResponse] = useState('');
 
     const fetchContacts = async () => {
         try {
@@ -106,6 +109,27 @@ const ContactManagement = ({ token }) => {
         });
     };
 
+    const handleAiQueryChange = (e) => {
+        setAiQuery(e.target.value);
+    };
+
+    const handleAiQuerySubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('https://p3s3b72sx9.execute-api.us-east-2.amazonaws.com/ai/query', 
+            { 
+                query: aiQuery, 
+                contacts: contacts 
+            }, 
+            {
+                headers: { 'x-auth-token': token }
+            });
+            setAiResponse(response.data.choices[0].message.content.trim());
+        } catch (error) {
+            console.error('Error making AI query:', error);
+        }
+    };
+
     return (
         <div>
             <h2>Contacts</h2>
@@ -116,6 +140,17 @@ const ContactManagement = ({ token }) => {
                 onChange={handleSearch}
             />
             <button onClick={handleAddNewContact}>Add New Contact</button>
+            <form onSubmit={handleAiQuerySubmit} style={{ marginTop: '20px' }}>
+                <input
+                    type="text"
+                    placeholder="Ask AI about contacts..."
+                    value={aiQuery}
+                    onChange={handleAiQueryChange}
+                    style={{ width: '60%' }}
+                />
+                <button type="submit">Ask AI</button>
+            </form>
+            {aiResponse && <div style={{ marginTop: '20px' }}><strong>AI Response:</strong> {aiResponse}</div>}
             <table>
                 <thead>
                     <tr>
@@ -155,6 +190,10 @@ const ContactManagement = ({ token }) => {
             )}
         </div>
     );
+};
+
+ContactManagement.propTypes = {
+    token: PropTypes.string.isRequired
 };
 
 export default ContactManagement;
