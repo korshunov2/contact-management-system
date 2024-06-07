@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Form, FormGroup, Col, Row, Button, Container } from 'reactstrap';
 
 const ContactManagement = ({ token }) => {
     const [contacts, setContacts] = useState([]);
@@ -108,39 +109,52 @@ const ContactManagement = ({ token }) => {
 
     return (
         <div>
+            <Container>
             <h2>Contacts</h2>
+            <Row className="row-cols-lg-auto g-3 align-items-center">
+            <Col>
             <input class="form-control"
                 type="text"
                 placeholder="Search contacts..."
                 value={search}
                 onChange={handleSearch}
             />
-            <button onClick={handleAddNewContact}>Add New Contact</button>
-            <table>
+           </Col>
+           <Col>
+            <Button color="primary" outline onClick={handleAddNewContact}>Add New Contact</Button>
+            </Col>
+            </Row>
+            <Row className="row-cols-lg-auto g-3 mt-3">
+            <table class="table table-bordered table-striped table-hover">
                 <thead>
+                    
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Birthday</th>
                         <th>Actions</th>
                     </tr>
+                
                 </thead>
                 <tbody>
                     {filteredContacts.map(contact => (
-                        <tr key={contact.id}>
+                       
+                       <tr key={contact.id}>
                             <td>{contact.first_name}</td>
                             <td>{contact.last_name}</td>
                             <td>{contact.birthday}</td>
                             <td>
-                                <button class="btn btn-outline-secondary mr-3" type="button" onClick={() => setSelectedContact(contact)}>Edit</button>
-                                <button class="btn btn-outline-secondary" type="button" onClick={() => handleDelete(contact.id)}>Delete</button>
+                                <Button class="btn btn-outline-secondary mr-3" type="button" onClick={() => setSelectedContact(contact)}>Edit</Button>{' '}
+                                <Button  color="danger" type="button" onClick={() => handleDelete(contact.id)}>Delete</Button>
                             </td>
                         </tr>
+                        
                     ))}
                 </tbody>
             </table>
+            </Row>
             {(selectedContact || newContact) && (
-                <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '10px', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'repeat(6, auto)' }}>
+                <Form onSubmit={handleSubmit} style={{ display: 'grid', gap: '10px', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'repeat(6, auto)' }}>
                     <h2 style={{ gridColumn: 'span 2' }}>{selectedContact ? 'Edit Contact' : 'Add New Contact'}</h2>
                     <input type="text" name="first_name" placeholder="First Name" value={selectedContact ? selectedContact.first_name : newContact.first_name} onChange={handleChange} />
                     <input type="text" name="last_name" placeholder="Last Name" value={selectedContact ? selectedContact.last_name : newContact.last_name} onChange={handleChange} />
@@ -149,10 +163,11 @@ const ContactManagement = ({ token }) => {
                     <input type="text" name="address" placeholder="Address" value={selectedContact ? selectedContact.address : newContact.address} onChange={handleChange} style={{ gridColumn: 'span 2' }} />
                     <textarea name="notes" placeholder="Notes" value={selectedContact ? selectedContact.notes : newContact.notes} onChange={handleChange} rows="4" cols="50" style={{ gridColumn: 'span 2' }}></textarea>
                     <input type="date" name="birthday" value={selectedContact ? selectedContact.birthday : newContact.birthday} onChange={handleChange} style={{ gridColumn: 'span 2' }} />
-                    <button type="submit" style={{ gridColumn: 'span 1' }}>{selectedContact ? 'Save' : 'Add Contact'}</button>
-                    {(selectedContact || newContact) && <button type="button" onClick={handleCancel} style={{ gridColumn: 'span 1' }}>Cancel</button>}
-                </form>
+                    <Button color="primary" outline type="submit" style={{ gridColumn: 'span 1' }}>{selectedContact ? 'Save' : 'Add Contact'}</Button>
+                    {(selectedContact || newContact) && <Button color="primary" outline type="button" onClick={handleCancel} style={{ gridColumn: 'span 1' }}>Cancel</Button>}
+                </Form>
             )}
+            </Container>
         </div>
     );
 };
