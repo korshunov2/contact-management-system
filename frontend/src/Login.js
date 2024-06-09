@@ -24,18 +24,17 @@ const Login = ({ setToken }) => {
                 <h2>Login</h2>
             </Row>
             <Row className="row-cols-lg-auto g-3">
-            <FormGroup>
-                <Col md={6}>   
-                    <input   type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                    {' '}
-                    <input  type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
+                <Col md={4}>   
+                    <input  className="form-control" type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                </Col>
+                <Col md={4}>
+                    <input  className="form-control" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </Col>           
-            </FormGroup>
-
+                <Col md={4}>
+                    <Button color="primary" outline  type="submit">Login</Button>
+                </Col>
             </Row>
-            <Button color="primary" outline  type="submit">Login</Button>
-
         </Form>
        </div> 
     );
