@@ -50,8 +50,10 @@ This is a contact management system built with Node.js, Express, Sequelize, MySQ
 ### Frontend
 
    Build and deploy the frontend to S3:
+   ```bash
    npm run build
    aws s3 sync build/ s3://your-s3-bucket-name
+   ```
 
 ## API Endpoints
 
