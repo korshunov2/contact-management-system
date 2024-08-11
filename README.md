@@ -13,20 +13,32 @@ This is a contact management system built with Node.js, Express, Sequelize, MySQ
 ### Backend
 
 1. Navigate to the `backend` directory:
+   ```bash
    cd backend
-2. Install dependencies
+   ```
+3. Install dependencies
+    ```bash
    npm install
-3. Run the backend locally
+   ```
+5. Run the backend locally
+    ```bash
    npm start
+   ```
 
 ### Frontend
 
 1. Navigate to the `fronend` directory:
+    ```bash
    cd frontend
-2. Install dependencies
+    ```
+3. Install dependencies
+    ```bash
    npm install
-3. Run the frontend locally
+    ```
+5. Run the frontend locally
+    ```bash
    npm start
+   ```
 
 ## Deployment
 
